@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Saya</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: url('wallpaper.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: rgba(0, 51, 102, 0.8);
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      color: orange;
+      margin: 0;
+    }
+
+    .profile {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .profile img {
+      width: 150px;
+      border-radius: 50%;
+      border: 3px solid white;
+    }
+
+    .profile video {
+      width: 300px;
+      margin-top: 20px;
+      border: 2px solid white;
+      border-radius: 10px;
+    }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .links a {
+      background-color: orange;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .led {
+      height: 5px;
+      background: linear-gradient(90deg, #00f, #fff, #f60);
+      background-size: 600% 600%;
+      animation: ledAnimation 5s linear infinite;
+    }
+
+    @keyframes ledAnimation {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .salju {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .clock, .calculator {
+      text-align: center;
+      margin: 30px;
+    }
+
+    #clock {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+
+    .github-login {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .github-login a {
+      color: #fff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Portofolio Saya</h1>
+  </header>
+
+  <div class="led"></div>
+
+  <div class="profile">
+    <img src="profile.jpg" alt="Foto Profil">
+    <video controls src="video.mp4"></video>
+  </div>
+
+  <div class="links">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+    <a href="#">Link 4</a>
+    <a href="#">Link 5</a>
+    <a href="#">Link 6</a>
+  </div>
+
+  <div class="clock">
+    <div id="clock">00:00</div>
+  </div>
+
+  <div class="calculator">
+    <input id="display" readonly style="width: 200px; font-size: 18px; text-align: right;"><br>
+    <button onclick="addChar('1')">1</button>
+    <button onclick="addChar('2')">2</button>
+    <button onclick="addChar('3')">3</button>
+    <button onclick="addChar('+')">+</button><br>
+    <button onclick="addChar('4')">4</button>
+    <button onclick="addChar('5')">5</button>
+    <button onclick="addChar('6')">6</button>
+    <button onclick="addChar('-')">-</button><br>
+    <button onclick="addChar('7')">7</button>
+    <button onclick="addChar('8')">8</button>
+    <button onclick="addChar('9')">9</button>
+    <button onclick="addChar('*')">*</button><br>
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="addChar('0')">0</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="addChar('/')">/</button>
+  </div>
+
+  <div class="github-login">
+    <a href="https://github.com/login" target="_blank"><i class="fab fa-github"></i> Login with GitHub</a>
+  </div>
+
+  <audio autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <canvas class="salju"></canvas>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      now.setHours(now.getHours() + 7); // Waktu Indonesia WIB
+      const jam = now.getHours().toString().padStart(2, '0');
+      const menit = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('clock').textContent = `${jam}:${menit}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function addChar(char) {
+      document.getElementById('display').value += char;
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+
+    function calculate() {
+      try {
+        document.getElementById('display').value = eval(document.getElementById('display').value);
+      } catch {
+        document.getElementById('display').value = 'Error';
+      }
+    }
+
+    // Salju efek
+    const canvas = document.querySelector(".salju");
+    const ctx = canvas.getContext("2d");
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+    let flakes = [];
+    
+    function createSnowFlakes() {
+      for (let i = 0; i < 100; i++) {
+        flakes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 5 + 2,
+          d: Math.random() + 1
+        });
+      }
+    }
+
+    function drawFlakes() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      for (let i = 0; i < flakes.length; i++) {
+        let f = flakes[i];
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+      moveFlakes();
+    }
+
+    function moveFlakes() {
+      for (let i = 0; i < flakes.length; i++) {
+        let f = flakes[i];
+        f.y += Math.pow(f.d, 2) + 1;
+        if (f.y > h) {
+          flakes[i] = {x: Math.random() * w, y: 0, r: f.r, d: f.d};
+        }
+      }
+    }
+
+    createSnowFlakes();
+    setInterval(drawFlakes, 25);
+  </script>
+</body>
+</html>
